@@ -10054,6 +10054,7 @@ CREATE TABLE `medex_prefs` (
   `postcard_top` varchar(255) DEFAULT NULL,
   `status` text,
   `MedEx_lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ME_pdata` text,
   UNIQUE KEY `ME_username` (`ME_username`)
 ) ENGINE=InnoDB;
 
