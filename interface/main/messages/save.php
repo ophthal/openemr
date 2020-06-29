@@ -74,8 +74,6 @@ if ($_REQUEST['go'] == 'Preferences') {
     exit;
 }
 if ($_REQUEST['MedEx'] == "start") {
-//echo "wow";die();
-//echo acl_check('admin', 'super'). " now\n";//
     if (AclMain::aclCheckCore('admin', 'super')) {
         $query = "SELECT * FROM users WHERE id = ?";
         $user_data = sqlQuery($query, array($_SESSION['authUserID']));
