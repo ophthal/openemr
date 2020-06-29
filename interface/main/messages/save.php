@@ -74,7 +74,9 @@ if ($_REQUEST['go'] == 'Preferences') {
     exit;
 }
 if ($_REQUEST['MedEx'] == "start") {
-    if (acl_check('admin', 'super')) {
+//echo "wow";die();
+//echo acl_check('admin', 'super'). " now\n";//
+    if (AclMain::aclCheckCore('admin', 'super')) {
         $query = "SELECT * FROM users WHERE id = ?";
         $user_data = sqlQuery($query, array($_SESSION['authUserID']));
         $query = "SELECT * FROM facility WHERE primary_business_entity='1' LIMIT 1";
@@ -125,12 +127,14 @@ if ($_REQUEST['MedEx'] == "start") {
             }
             $facilities = implode("|", $facilities);
             $providers = implode("|", $providers);
-            $sqlINSERT = "INSERT INTO `medex_prefs` (
+	    
+	    $sqlINSERT = "INSERT INTO `medex_prefs` (
 								MedEx_id,ME_api_key,ME_username,
 								ME_facilities,ME_providers,ME_hipaa_default_override,MSGS_default_yes,
-								PHONE_country_code,LABELS_local,LABELS_choice)
-							VALUES (?,?,?,?,?,?,?,?,?,?)";
-            sqlStatement($sqlINSERT, array($response['customer_id'], $response['API_key'], $_POST['new_email'], $facilities, $providers, "1", "1", "1", "1", "5160"));
+								PHONE_country_code,LABELS_local,LABELS_choice,ME_pdata)
+							VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            sqlStatement($sqlINSERT, array($response['customer_id'], $response['API_key'], $_POST['new_email'], $facilities, $providers, "1", "1", "1", "1", "5160",$response['status']));
+            
             sqlQuery("UPDATE `background_services` SET `active`='1',`execute_interval`='5', `require_once`='/library/MedEx/MedEx_background.php' WHERE `name`='MedEx'");
 
             $info = $MedEx->login('1');
