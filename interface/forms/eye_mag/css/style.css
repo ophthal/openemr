@@ -703,6 +703,8 @@ body {
   padding: 10px;
   top: 0;
   width: 550px;
+  max-height: 2.5in;
+  overflow-x: overlay;
 }
 
 .size100 {
